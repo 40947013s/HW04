@@ -28,7 +28,7 @@ struct _sBmpHeader
 
 typedef struct _sBmpHeader sBmpHeader;
 
-bool is_bmp(sBmpHeader header)
+/*bool is_bmp(sBmpHeader header)
 {
     if(header.bm[0]!= 'B' || header.bm[1]!= 'M')
     {
@@ -65,19 +65,17 @@ void twice(char *ori_name, char *big_name)
     fwrite(&header, sizeof(sBmpHeader), 1, big_file);
     
     int x, y;
-    int p_times = old_h*(old_w*3+old_w%4), n_times = new_h*(new_w*3+new_w%4);
+    int p_times = old_w*old_h*3, n_times = new_w*new_h*3;
     char *p_row, *n_row;
-    uint8_t *p_color = (uint8_t*)malloc(p_times);
-    uint8_t *n_color = (uint8_t*)malloc(n_times);
-    memset(p_color, 0, p_times);
-    memset(n_color, 0, n_times);
+    char *p_color = (char*)malloc(p_times);
+    char *n_color = (char*)malloc(n_times);
     fread(p_color, p_times, 1, ori_file);
     
     for(int i = 0; i < new_h; i++)
     {
         y = i * old_h/new_h;
-        n_row = n_color + i*(new_w*3+new_w%4);
-        p_row = p_color + y*(old_w*3+old_w%4);
+        n_row = n_color + i*new_w*3;
+        p_row = p_color + y*old_w*3;
         for(int j = 0; j < new_w; j++)
         {
             x = j*old_w/new_w;
@@ -115,7 +113,7 @@ void gray(char *big_name, char *gray_name)
             for(int j = 0; j < 3 ; j++)
                 mod[i+j] = gray;
         }        
-        fwrite(mod, count, 1, gray_file);   
+        fwrite(mod, count, 1, gray_file);        
     }    
     
     fclose(big_file); fclose(gray_file);
@@ -158,27 +156,28 @@ void draw(uint8_t **p_color, uint8_t **color, int width, bool flag)
         else
             draw_layer(color, i, p_color[0][i], flag);
     }
-}
+}*/
 
-void generate(char *gray_name, char *name1, char *name2)
+/*void generate(char *gray_name, char *name1, char *name2)
 {
     //sprintf(name1, "%s_layer1.bmp", name1);
-    //sprintf(name2, "%s_layer2.bmp", name1); 
+    //sprintf(name2, "%s_layer2.bmp", name1);    
     
     sBmpHeader header;
-    FILE *gray_file = NULL, *layer1 = NULL , *layer2 = NULL;
+    FILE *gray_file = NULL; 
+    int *layer1 , *layer2;
     if((gray_file = fopen(gray_name, "rb")) == NULL)
     {
         printf("File could not be opened!\n");
         exit(0);
     }
       
-    if((layer1 = fopen(name1, "wb")) == NULL)
+    if((open(name1, O_WRONLY)) == -1)
     {
         printf("File could not be opened!\n");
         exit(0);
     }
-    if((layer2 = fopen(name2, "wb")) == NULL)
+    if((open(name2, O_WRONLY)) == -1)
     {
         printf("File could not be opened!\n");
         exit(0);
@@ -186,43 +185,27 @@ void generate(char *gray_name, char *name1, char *name2)
     
     fread(&header, sizeof(sBmpHeader), 1, gray_file);
     if(!is_bmp(header)) exit(0);
-    int times = header.width*header.height*3;
-    uint8_t *p1_color = (uint8_t*)malloc(times);
-    /*uint8_t *p2_color = (uint8_t*)malloc(size);
-    uint8_t *n1_color = (uint8_t*)malloc(size);
-    uint8_t *n2_color = (uint8_t*)malloc(size);
-    uint8_t *n3_color = (uint8_t*)malloc(size);
-    uint8_t *n4_color = (uint8_t*)malloc(size);*/
-        fread(&p1_color, times, 1, gray_file);
-    
-    for(int i = 0; i < header.height; i++)
+    /*int size = header.width*3 + header.width%4;
+    uint8_t **p_color = (uint8_t**)malloc(2*sizeof(uint8_t*));
+    *p_color = (uint8_t*)malloc(size);
+     uint8_t **n1_color = (uint8_t**)malloc(2*sizeof(uint8_t*));
+    *n1_color = (uint8_t*)malloc(size);
+    uint8_t **n2_color = (uint8_t**)malloc(2*sizeof(uint8_t*));
+    *n2_color = (uint8_t*)malloc(size);
+    /*for(int i = 0; i < header.height/2; i++)
     {
-        //fread(&p2_color, size, 1, gray_file);
-        /*for(int j = 0; j < size; j+=6)
-        {
-            /*if(p_color[0][j] == 256)
-            {
-                for(int k = j; k < j+3; k++)
-                {
-                    n1_color[0][k] = 0; n2_color[0][k] = 0;
-                    n1_color[1][k] = 255; n2_color[1][k] = 255;
-                }
-                for(int k = j+3; k < j+6; k++)
-                {
-                    n1_color[0][k] = 255; n2_color[0][k] = 255;
-                    n1_color[1][k] = 0; n2_color[1][k] = 0;
-                }
-            }
-            
-        }*/
-        /*fwrite(&n1_color[0], size, 1, layer1);
+        fread(&p_color[i%2], size, 1, gray_file);
+        fread(&p_color[(i+1)%2], size, 1, gray_file);
+        draw(p_color, n1_color, size, 1);
+        draw(p_color, n2_color, size, 0);
+        fwrite(&n1_color[0], size, 1, layer1);
         fwrite(&n1_color[1], size, 1, layer1);
         fwrite(&n2_color[0], size, 1, layer2);
-        fwrite(&n2_color[0], size, 1, layer2);*/
+        fwrite(&n2_color[0], size, 1, layer2);
     }
-    //fclose(gray_file); fclose(layer1); fclose(layer2); 
+    fclose(gray_file); fclose(layer1); fclose(layer2); 
     
-}
+}*/
  
 int main(int argc, char *argv[])
 {
@@ -231,9 +214,8 @@ int main(int argc, char *argv[])
         printf("Wrong file numbers input.\n");
         return 0;
     }
-    twice(argv[1], "enlarge.bmp");    
-    gray("enlarge.bmp", "gray.bmp");    
-    remove("enlarge.bmp");
-    //generate("gray.bmp", "layer1.bmp", "layer2.bmp");
+    FILE *p = fopen("p.txt", "w");
+    fwrite(argv[1], 3, 1, p);
+    
     return 0; 
 }
