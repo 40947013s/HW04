@@ -10,7 +10,6 @@ int main(int argc, char *argv[])
 
     char l1_name[128], l2_name[128], o_name[128];
     name(argv[1], l1_name, l2_name, o_name);
-    printf("%s", l1_name);
     twice(argv[1], "enlarge.bmp");    
     gray("enlarge.bmp", "gray.bmp");    
     remove("enlarge.bmp");
