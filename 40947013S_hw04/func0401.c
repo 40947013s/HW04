@@ -131,12 +131,12 @@ void generate(char *gray_name, char *name1, char *name2)
         
         for(int j = 0; j < size; j+=6)
         {
-            if(p1_color[j] > 250)
+            if(p1_color[j] > 128)
             {
                 for(int k = 0; k < 3; k++)
                 {
                     n1_color[j+k] = p1_color[j+k];
-                    n2_color[j+k] = 255;
+                    n2_color[j+k] = 128;
                     n3_color[j+k] = p1_color[j+k];
                     n4_color[j+k] = 255;     
                 }
