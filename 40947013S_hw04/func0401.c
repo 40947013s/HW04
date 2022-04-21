@@ -135,17 +135,17 @@ void generate(char *gray_name, char *name1, char *name2)
             {
                 for(int k = 0; k < 3; k++)
                 {
-                    n1_color[j+k] = p1_color[j+k];
-                    n2_color[j+k] = 128;
-                    n3_color[j+k] = p1_color[j+k];
+                    n1_color[j+k] = 0;
+                    n2_color[j+k] = 255;
+                    n3_color[j+k] = 0;
                     n4_color[j+k] = 255;     
                 }
                 for(int k = 3; k < 6; k++)
                 {
                     n1_color[j+k] = 255;
-                    n2_color[j+k] = p1_color[j+k];
+                    n2_color[j+k] = 0;
                     n3_color[j+k] = 255;
-                    n4_color[j+k] = p1_color[j+k];
+                    n4_color[j+k] = 0;
                 }
             }
             else
@@ -153,16 +153,16 @@ void generate(char *gray_name, char *name1, char *name2)
                 for(int k = 0; k < 3; k++)
                 {
                     n1_color[j+k] = 255;
-                    n2_color[j+k] = p1_color[j+k];
-                    n3_color[j+k] = p1_color[j+k];
+                    n2_color[j+k] = 0;
+                    n3_color[j+k] = 0;
                     n4_color[j+k] = 255;     
                 }
                 for(int k = 3; k < 6; k++)
                 {
-                    n1_color[j+k] = p1_color[j+k];
+                    n1_color[j+k] = 0;
                     n2_color[j+k] = 255;
                     n3_color[j+k] = 255;
-                    n4_color[j+k] = p1_color[j+k];
+                    n4_color[j+k] = 0;
                 }
             }
         }
