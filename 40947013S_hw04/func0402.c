@@ -57,7 +57,7 @@ int count_item(char *filename)
         }
     }
     return item;
-    //fcolse(input);
+    fclose(input);
 }
 
 void store_item(char *filename, char ***store, int *value, int size)
