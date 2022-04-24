@@ -94,7 +94,8 @@ void store_item(char *filename, char ***store, int *value, int size)
 
 int choice(int c)
 {
-    if(c <= 8) return 8;
+    if(c == 1) return 1;
+    else if(c <= 8) return 8;
     else if(c <= 16) return 16;
     else if(c <= 24) return 24;
     else if(c <= 32) return 32;
@@ -114,7 +115,9 @@ void write_h(char *filename, char *struct_name, char **store, int *value, int si
     fprintf(output, "#pragma once\n\n#include <stdint.h>\n\ntypedef struct _s%s\n{\n", struct_name);
     for(int i = 0; i < size; i++)
     {
-        if(choice(value[i]) != 24)
+        if(choice(value[i]) == 1)
+            fprintf(output, "    char %s;\n", store[i]);
+        else if(choice(value[i]) != 24)
             fprintf(output, "    uint%d_t %s;\n", choice(value[i]), store[i]);
         else
             fprintf(output, "    uint8_t %s[3];\n", store[i]);
