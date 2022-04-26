@@ -10,13 +10,11 @@
 #define NONE "\033[m"
 #define RED "\033[0;32;31m"
 
-int table[21] = 
-{44, 107, 84, 33, 15, 27, 103, 25, 51, 79, 22, 20, 85, 69, 35, 21, 41, 53, 40, 97, 217};
+int table[5] = 
+{44, 84, 38, 51, 53};
 
-char languages[21][31] = 
-{
-"C", "C#", "C++", "Dart", "Elixir", "Erlang", "Fortran", "Go", "Java", "Kotlin", "Lua", "MATLAB", "Objective-C", "PHP", "Python", "R", "Ruby", "Rust", "Scala", "Swift", "Visual_Basic"
-};
+char languages[5][31] = 
+{ "C", "C++", "Java", "JS", "Rust" };
 
 struct option long_options[] = 
 {  
@@ -33,15 +31,6 @@ char *deal(char *s)
         if(s[i] == '~') t[i] = ' ';
     else t[i] = s[i];
     return t;
-}
-
-char *mix_str(char *a, char *b)
-{
-    char copy_a[500], copy_b[500];
-    strcpy(copy_a, a); strcpy(copy_b, b);
-    char *first = strcat(copy_a, " ");
-    char *second = strcat(first, copy_b);    
-    return second;
 }
 
 char *change_line(char *line)
@@ -71,8 +60,9 @@ char *change_line(char *line)
 
 void print_label(int _th, int max)
 {
-    printf("%d", _th);
-    for(int i = log(_th); i < log(max)+1; i++)
+    if(_th == 1) printf(" %d", _th);
+    else printf("%d", _th);
+    for(int i = log10(_th); i < log10(max)+1; i++)
         printf(" ");
 }
 
@@ -116,16 +106,14 @@ int main(int argc, char *argv[])
     if(color)
     {
         char **t = calloc(table[pivot], sizeof(char*));
-        char *str = malloc(500), *next = malloc(500);
-        bool *space = calloc(table[pivot], sizeof(bool));    
+        char *str = malloc(500);
         for(int i = 0; i < pivot; i++)
             for(int j = 0; j < table[i]; j++)
                 fscanf(fp, "%s", str);
         for(int i = 0; i < table[pivot]; i++)
         {
             fscanf(fp, "%s", str);
-            *(t+i) = deal(str);
-            if(strcmp(deal(str), str) != 0) space[i] = true;      
+            *(t+i) = deal(str);  
         }
     
         char line[500]; bool find = false;
@@ -156,45 +144,20 @@ int main(int argc, char *argv[])
                 token = strtok(NULL, " ");
                 count++;
             }
-            str = *(s+0);
-            for(int i = 1; i < count; i++)
-            {
-                char *mix = malloc(1000);
-                next = *(s+i);       
-                mix = mix_str(str, next); 
+            
+            for(int i = 0; i < count; i++)
+            {  
                 for(int j = 0; j < table[pivot]; j++)
                 {            
-                    if(space[j] && strcmp(mix, *(t+j)) == 0)
+                    if(strcmp(*(s+i), *(t+j)) == 0)
                     {
-                        printf(RED"%s ", mix);
-                        find = true; break;
-                    }
-                }
-                if(find) 
-                {
-                    str = *(s+i+1); i++;
-                    find = false; continue;            
-                }
-                for(int j = 0; j < table[pivot]; j++)
-                {            
-                    if(!space[j] && strcmp(str, *(t+j)) == 0)
-                    {
-                        printf(RED"%s ", str);
+                        printf(RED"%s ", *(s+i));
                         find = true; break;
                     }
                 }                
-                if(!find) printf(NONE"%s ", str);      
-                str = *(s+i);
+                if(!find) printf(NONE"%s ", *(s+i));    
                 find = false;
             }
-            for(int i = 0; i < table[pivot]; i++)
-            {            
-                if(!space[i] && strcmp(*(s+count-1), *(t+i)) == 0)
-                {
-                    printf(RED"%s", *(s+count-1));
-                    find = true; break;
-                }
-            }  if(!find) printf(NONE"%s", *(s+count-1));        
             count = 0;  count_label++;
         }
     }
