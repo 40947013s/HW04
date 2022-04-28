@@ -94,3 +94,5 @@ void cap(capability *i);
 void per(performance *i);
 void oth(other *i);
 void b(body *i, info *j);
+
+#endif
