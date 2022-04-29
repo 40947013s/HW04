@@ -15,6 +15,8 @@ uint16_t detect(uint16_t lower, uint16_t upper)
 
 void time(info *i)
 {
+    //printf("Chage time (press Y if yes)?\n");
+    
     printf("Year：%u-> ", i->year);
     i->year = detect(0, 9999);  
     

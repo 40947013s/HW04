@@ -38,7 +38,7 @@ char *change_line(char *line)
     char new_one[1500];
     char *res = malloc(1500);    
     int count = 0;
-    for(int i = 0; i < strlen(line); i++)
+    for(int i = 0; i < strlen(line)-1; i++)
     {
         if((line[i] == '(' || line[i] == '{' || line[i] == ')' || line[i] == '}') && line[i+1] != ' ')
         {
@@ -64,6 +64,14 @@ void print_label(int _th, int max)
     else printf("%d", _th);
     for(int i = log10(_th); i < log10(max)+1; i++)
         printf(" ");
+}
+
+int quotation_count(char *s)
+{
+    int count = 0;
+    for(int i = 0; i < strlen(s); i++)
+        if(s[i] == '"') count++;
+    return count;
 }
 
 int main(int argc, char *argv[])
@@ -132,8 +140,10 @@ int main(int argc, char *argv[])
             {         
                 token = strtok(NULL, " ");
                 count++;
-            } count = 0;
+            } 
+            int quotation[count];            
             char **s = calloc(count, sizeof(char*));
+            count = 0;
             add_space = malloc(1500);
             add_space = change_line(line);
             token = strtok(add_space, " ");
@@ -141,15 +151,23 @@ int main(int argc, char *argv[])
             {
                 *(s+count) = calloc(strlen(token)+1, sizeof(char)); 
                 *(s+count) = token;
+                quotation[count] = quotation_count(*(s+count));
                 token = strtok(NULL, " ");
                 count++;
             }
             
+            for(int i = 1; i < count; i++)
+                if(quotation[i] == 0 && quotation[i-1] == 1)
+                    quotation[i] = 1;
+            for(int i = 1; i < count; i++)
+                if(quotation[i] == 2) quotation[i] = 1;    
+            bool annotation = false;
             for(int i = 0; i < count; i++)
-            {  
+            {    
+                if(quotation[i] == 0 && strstr(*(s+i), "//")) annotation = true;
                 for(int j = 0; j < table[pivot]; j++)
                 {            
-                    if(strcmp(*(s+i), *(t+j)) == 0)
+                    if(strcmp(*(s+i), *(t+j)) == 0 && !annotation && quotation[i] == 0)
                     {
                         printf(RED"%s ", *(s+i));
                         find = true; break;
@@ -157,7 +175,7 @@ int main(int argc, char *argv[])
                 }                
                 if(!find) printf(NONE"%s ", *(s+i));    
                 find = false;
-            }
+            } printf(NONE"\n");
             count = 0;  count_label++;
         }
     }

@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     if(!struct_name) struct_name = "Test\0";
     if(!file_name) file_name = "test\0";
     char **store = NULL; int *value;
-    int size = count_item(txt_name);
+    int size = count_item(txt_name); 
     store_item(txt_name, &store, value, size);
     write_h(file_name, struct_name, store, value, size);
     write_c(file_name, struct_name, store, value, size);
