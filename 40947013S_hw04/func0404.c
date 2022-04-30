@@ -15,11 +15,11 @@ uint16_t detect(uint16_t lower, uint16_t upper)
 
 bool ask(char *s)
 {
-    char choice, c;
-    printf("Chage %s (press Y if yes)?\n", s);
-    scanf("%c", &choice);
+    char choice[128], c;
+    printf("Chage %s (press 'YES' if yes)? ", s);    
+    printf("%s\n", choice);
     while ((c = getchar()) != '\n' && c != EOF){}
-    return choice == 'Y';
+    return (strcmp(choice, "YES") == 0) ? true : false;
 }
 
 void menu()
@@ -33,7 +33,7 @@ void menu()
 
 void time(info *i)
 {
-    if(!ask("Time")) return;
+    if(ask("Time") == 0) return;
     
     printf("Year：%u-> ", i->year);
     i->year = detect(0, 9999);  
