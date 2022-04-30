@@ -1,0 +1,23 @@
+Time：
+    Year, Month, Weekday, date
+
+Attribute：
+    HP, Power, Intelligence, Disposition,
+    Charisma, Morality, Believe, Guilt,
+    Feel, Tired
+Judge：
+    Warrior_judge, Magic_judge, Social_judge,
+    Housework_judge, 
+
+Capability：
+    Fight_skill, Attack_ability, Defense_ability,
+    Magic_skill, Magic_ability, Anti_magic_ability
+
+Performance ：
+    Etiquette, Communication, Cook, Clean, Treat
+
+Other：
+    Money, Star, Age
+
+Body ：
+    Height, Weight, Chest, Waist, Hip 

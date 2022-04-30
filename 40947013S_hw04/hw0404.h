@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct s_info
 {
@@ -87,6 +88,8 @@ typedef struct s_body
 }body; //62
 
 uint16_t detect(uint16_t lower, uint16_t upper);
+void menu();
+bool ask(char *s);
 void time(info *i);
 void att(attribute *i);
 void jud(judge *i);

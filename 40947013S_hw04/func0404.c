@@ -13,9 +13,27 @@ uint16_t detect(uint16_t lower, uint16_t upper)
     return (uint16_t)temp;
 }
 
+bool ask(char *s)
+{
+    char choice, c;
+    printf("Chage %s (press Y if yes)?\n", s);
+    scanf("%c", &choice);
+    while ((c = getchar()) != '\n' && c != EOF){}
+    return choice == 'Y';
+}
+
+void menu()
+{
+    char line[255];
+    FILE *fp = fopen("menu.txt", "r");
+    while(fgets(line, 255, fp))
+        printf("%s", line);
+    printf("\n");
+}
+
 void time(info *i)
 {
-    //printf("Chage time (press Y if yes)?\n");
+    if(!ask("Time")) return;
     
     printf("Year：%u-> ", i->year);
     i->year = detect(0, 9999);  
@@ -31,6 +49,8 @@ void time(info *i)
 
 void att(attribute *i)
 {
+    if(!ask("Attribute")) return;
+    
     printf("HP: %u-> ", i->hp);
     i->hp = detect(0, 999);
 
@@ -64,6 +84,8 @@ void att(attribute *i)
 
 void jud(judge *i)
 {    
+    if(!ask("Judge")) return;
+    
     printf("Warrior: %u-> ", i->warrior_judge);
     i->warrior_judge = detect(0, 999);
     
@@ -79,6 +101,8 @@ void jud(judge *i)
 
 void cap(capability *i)
 {
+    if(!ask("Capability")) return;
+    
     printf("Fight: %u-> ", i->fight_skill);
     i->fight_skill = detect(0, 999);
     
@@ -100,6 +124,8 @@ void cap(capability *i)
 
 void per(performance *i)
 {
+    if(!ask("Performance")) return;
+    
     printf("Etiquette: %u-> ", i->etiquette);
     i->etiquette = detect(0, 999);
     printf("Art: %u-> ", i->art);
@@ -116,6 +142,8 @@ void per(performance *i)
 
 void oth(other *i)
 {
+    if(!ask("Other")) return;
+    
     printf("Money: %u-> ", i->money);
     i->money = detect(0, 0xFFFF);
     
@@ -128,6 +156,13 @@ void oth(other *i)
 
 void b(body *i, info *j)
 {
+    i->year = j->year;
+    i->month = j->month;
+    i->weekday = j->weekday;
+    i->date = j->date;
+
+    if(!ask("Body")) return;
+    
     printf("Height <The Last two number is float(13789 -> 137.89)>: %u-> ", i->height);
     i->height = detect(10000, 20000);
     
@@ -141,13 +176,5 @@ void b(body *i, info *j)
     i->waist = detect(3000, 12000);
     
     printf("Hip <The Last two number is float(13789 -> 137.89)>: %u->", i->hip);
-    i->hip = detect(3000, 12000);
-
-    uint16_t year = j->year, month = j->month;
-    uint16_t weekday = j->weekday, date = j->date;
-    
-    i->year = j->year;
-    i->month = j->month;
-    i->weekday = j->weekday;
-    i->date = j->date;
+    i->hip = detect(3000, 12000);    
 }

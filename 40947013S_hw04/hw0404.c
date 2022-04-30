@@ -19,29 +19,30 @@ int main()
         return 0;
     }
     out = fopen(output, "wb");
+    menu();
     info *i0 = calloc(1, sizeof(info));
     fread(i0, 1, sizeof(info), fp);
     time(i0);
     
     attribute *i1 = calloc(1, sizeof(attribute));
     fread(i1, 1, sizeof(attribute), fp);
-    //att(i1);
+    att(i1);
     
     judge *i2 = calloc(1, sizeof(judge));
     fread(i2, 1, sizeof(judge), fp);
-    //jud(i2);
+    jud(i2);
     
     capability *i3 = calloc(1, sizeof(capability));
     fread(i3, 1, sizeof(capability), fp);
-    //cap(i3);
+    cap(i3);
     
     performance *i4 = calloc(1, sizeof(performance));
     fread(i4, 1, sizeof(performance), fp);
-    //per(i4);
+    per(i4);
     
     other *i5 = calloc(1, sizeof(other));
     fread(i5, 1, sizeof(other), fp);
-    //oth(i5);
+    oth(i5);
 
     body *i6 = calloc(1, sizeof(body));
     fread(i6, 1, sizeof(body), fp);
