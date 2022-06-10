@@ -1,5 +1,6 @@
 #include "hw0401.h"
 
+/**@brief Check if the file is bmp*/
 bool is_bmp(sBmpHeader header)
 {
     if(header.bm[0]!= 'B' || header.bm[1]!= 'M')
@@ -9,7 +10,9 @@ bool is_bmp(sBmpHeader header)
     }
     return true;
 }
- 
+
+/**
+* Open the file "ori_name", and store 2x2 larger than it in the file "big_name".*/
 void twice(char *ori_name, char *big_name)
 {
     sBmpHeader header;
@@ -59,6 +62,8 @@ void twice(char *ori_name, char *big_name)
     fclose(ori_file); fclose(big_file);
 }
 
+/**
+* Open the file "big_name", and store its grayscale in file "gray_name"*/
 void gray(char *big_name, char *gray_name)
 {
     sBmpHeader header;
@@ -92,6 +97,8 @@ void gray(char *big_name, char *gray_name)
     fclose(big_file); fclose(gray_file);
 }
 
+/**
+* Open the file "gray_name", and generate 2 ways of presentation in file "name1" and "file "name2"*/
 void generate(char *gray_name, char *name1, char *name2)
 {
     sBmpHeader header;
@@ -176,6 +183,8 @@ void generate(char *gray_name, char *name1, char *name2)
     fclose(gray_file); fclose(layer1); fclose(layer2);     
 }
 
+/**
+* Overlap file "name1" and file "name2" and store in file"mix"*/
 void overlap(char *name1, char*name2, char *mix)
 {
     FILE *layer1 = NULL, *layer2 = NULL, *merge = NULL;
@@ -217,7 +226,8 @@ void overlap(char *name1, char*name2, char *mix)
     }    
     fclose(layer1); fclose(layer2); fclose(merge);    
 }
-
+/**
+* Deal with the output file names*/
 void name(char *input, char *layer1, char *layer2, char *overlap)
 {
     if(!strstr(input, ".bmp"))
