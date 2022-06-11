@@ -3,6 +3,9 @@ all: hw0401.o func0401.c hw0402.o func0402.c hw0403.o hw0404.o func0404.c
 	gcc func0402.c hw0402.o -o hw0402
 	gcc hw0403.o -o hw0403 -lm	
 	gcc func0404.c hw0404.o -o hw0404
+	doxygen -g -s
+	vim Doxyfile
+	doxygen Doxyfile
 
 hw0401: hw0401.c
 	gcc -c hw0401.c -o hw0401.o 
